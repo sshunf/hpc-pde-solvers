@@ -5,12 +5,11 @@
 
 ## Project 1 — Stokes Flow Solver (C)
 
-This solver computes steady-state velocity and pressure fields for incompressible **Stokes flow** in a 2-D channel using the **Successive Over-Relaxation (SOR)** method.
+This solver computes steady-state velocity and pressure fields for **Stokes flow** in a 2-D channel using the **Successive Over-Relaxation (SOR)** method.
 
-Performance is emphasized with:
-- In-place updates for **cache-friendly memory access**
-- **Tight C loops** for raw speed
-- **Binary output** for lightweight file I/O
+Uses:
+- In-place updates
+- Loop unrolling
 - Scaling analysis over different grid sizes `N`
 
 A second implementation, stokesparallel.c, uses OpenMP to parallelize the solver across multiple CPU threads, taking advantage of shared-memory architectures for additional speedup on multi-core machines.
@@ -26,14 +25,14 @@ Results (e.g., for `./stokes 128 1 1 0.4 1e-9 100000`):
 
 ## Project 2 — Rock–Paper–Scissors Reaction–Diffusion (MPI + LAPACK)
 
-This simulation models spatial pattern formation in a cyclic predator-prey system by solving a system of **reaction–diffusion PDEs** on a 2-D grid.
+This simulation models spatial pattern formation in a predator-prey system by solving a system of **reaction–diffusion PDEs** on a 2-D grid.
 
-The solver uses a **parallel ADI scheme** with **MPI domain decomposition (row striping)** and **LAPACK tridiagonal solvers**, enabling strong scaling on distributed-memory clusters.
+The solver uses a parallel ADI scheme with MPI domain decomposition and LAPACK tridiagonal solvers, facilitating scalability on distributed clusters.
 
-**Performance highlights:**
-- MPI **all-to-all matrix transposes** for implicit solves
-- **Batched 1-D tridiagonal solves** via `dgttrf` / `dgttrs`
-- In-place pointer swaps to reduce overhead
+Uses:
+- MPI all-to-all matrix transposes for implicit solves
+- Batched 1-D tridiagonal solves via `dgttrf` / `dgttrs`
+- In-place pointer swaps
 - Runtime logged to evaluate parallel scalability
 
 **Runtime parameters:**  
@@ -47,10 +46,10 @@ The solver uses a **parallel ADI scheme** with **MPI domain decomposition (row s
 
 GPU-accelerated solver for the **Gierer–Meinhardt activator–inhibitor system**, using **spectral differentiation (FFT)** and **RK4 time-stepping** entirely on the device.
 
-**Performance highlights:**
-- 2-D FFTs via **cuFFT**
-- **Custom CUDA kernels** for reaction updates and RK4 stages
-- Almost entirely **GPU-resident computation** (minimal CPU-GPU transfer)
+Uses:
+- 2-D FFTs via cuFFT
+- CUDA kernels for reaction updates and RK4 stages
+- Minimal CPU-GPU transfer, keeping computation mostly on the GPU
 - Performance tracked with high-resolution CUDA timers
 
 **Runtime parameters:**  
